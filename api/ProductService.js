@@ -1,4 +1,4 @@
-import axios from 'axios';
+//import axios from 'axios';
 
 //console.log(data);나중에 삭제하기
 const instance = axios.create({
@@ -21,9 +21,9 @@ const getProductList = async ({ page, pageSize, keyword }) => {
   }
 };
 
-const getProduct = async ({ id }) => {
+const getProduct = async ({ productId }) => {
   try {
-    const response = await instance.get(`/products/${id}`);
+    const response = await instance.get(`/products/${productId}`);
 
     const data = response.data;
     console.log(data);
@@ -38,7 +38,7 @@ const createProduct = async ({
   name,
   description,
   price,
-  tag,
+  tags,
   images,
 }) => {
   try {
@@ -46,7 +46,7 @@ const createProduct = async ({
       name,
       description,
       price,
-      tag,
+      tags,
       images,
     });
 
