@@ -5,22 +5,21 @@ const instance = axios.create({
 });
 
 const getArticleList = async ({ page, pageSize, keyword }) => {
-  const params = {
-    page,
-    pageSize,
-    ...(keyword && { keyword: keyword }),
-  };
-  return instance
-    .get('/articles', { params })
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(` article getList - 에러발생${error.message}`);
+  try {
+    const params = {
+      page,
+      pageSize,
+      ...(keyword && { keyword: keyword }),
+    };
+    const response = await instance.get('/articles', { params });
+    const data = response.data;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(` article getList - 에러발생${error.message}`);
 
-      throw error;
-    });
+    throw error;
+  }
 };
 
 // const articleQuery = {
@@ -31,65 +30,54 @@ const getArticleList = async ({ page, pageSize, keyword }) => {
 // getArticleList(articleQuery);//잘나옴
 
 const getArticle = async ({ id }) => {
-  return instance
-    .get(`/articles/${id}`)
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(`articel 에러발생${error.message}`);
-      throw error;
-    });
+  try {
+    const response = await instance.get(`/articles/${id}`);
+    const data = response.data;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(`articel 에러발생${error.message}`);
+    throw error;
+  }
 };
 // getArticle({id:5494}); //잘나옴!
 
 const createArticle = async ({ title, content, image }) => {
-  return instance
-    .post('/articles', {
+  try {
+    const response = await instance.post('/articles', {
       title,
       content,
       image,
-    })
-
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(` article create - 에러발생${error.message}`);
-      throw error;
     });
+    const data = response.data;
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(` article create - 에러발생${error.message}`);
+    throw error;
+  }
 };
 
 const patchArticle = async (articleId, patchData) => {
-  return instance
-    .patch(
-      `/articles/${articleId}`,
-      patchData
-    )
-
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(` article patch - 에러발생${error.message}`);
-      throw error;
-    });
+  try {
+    const response = await instance.patch(`/articles/${articleId}`, patchData);
+    const data = response.data;
+    console.log(data);
+  } catch (error) {
+    console.log(` article patch - 에러발생${error.message}`);
+    throw error;
+  }
 };
 
 const deleteArticle = async ({ articleId }) => {
-  return instance
-    .delete(`/articles/${articleId}`)
-    .then((response) => {
-      console.log(response.status);
-      return response.status;
-    })
-    .catch((error) => {
-      console.log(`article delete - 에러발생${error.message}`);
-      throw error;
-    });
+  try {
+    const response = await instance.delete(`/articles/${articleId}`);
+    console.log(response.status);
+    return response.status;
+  } catch (error) {
+    console.log(`article delete - 에러발생${error.message}`);
+    throw error;
+  }
 };
 
 const ArticleService = {
