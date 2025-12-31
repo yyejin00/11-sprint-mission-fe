@@ -3,8 +3,9 @@ import ProductService from './api/ProductService.js';
 const productsEl = document.querySelector('#productList');
 const createButton = document.querySelector('#createButton');
 const searchButton = document.querySelector('#searchButton');
+const deleteButton = document.querySelector('#deleteButton');
 
-//데이터 가져오기
+//데이터 list 가져오기
 const renderProducts = (products) => {
   productsEl.innerHTML = '';
   products.forEach((product) => {
@@ -14,6 +15,7 @@ const renderProducts = (products) => {
   });
 };
 
+//데이터 하나만 화면에가져오기
 const renderProduct = (product) => {
   productsEl.innerHTML = '';
   const li = document.createElement('li');
@@ -54,8 +56,17 @@ createButton.addEventListener('click', async () => {
 searchButton.addEventListener('click', async () => {
   try {
     const data = await ProductService.getProduct({ productId: 2956 });
-    renderProduct(data);
+    renderProducts([data]);
   } catch (error) {
     console.log(`searchButton 실패 : ${error.message}`);
+  }
+});
+
+deleteButton.addEventListener('click', async () => {
+  try {
+    await ProductService.deleteProduct({ productId: 2954 });
+    loadProducts();
+  } catch {
+    console.log(`deletebutton 실패 ${error.message}`);
   }
 });
